@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <link rel="stylesheet" href="css/list.css">
+</head>
+<body>
+	<div class="wrapper">
+		<div class="open"><button id="open">Download</button></div>
+	</div>
+
+	<form method="post" action="additem.php">
+		<table class="form">
+			<tr><td><span>Task</span></td><td><div class="task-field"><input id="task"></div></td></tr>
+			<tr><td><span>Expires Date</span></td><td><div class="expires-field"><input id="expires"></div></td></tr>
+			<tr><td><span>Status</span></td><td><div class="status-field"><input id="status"></div></td></tr>
+			<tr><td><span>Type</span></td><td><div class="type-field"><input id="type"></div></td></tr>
+		</table>
+		<!-- <p><input type="submit" value="Отправить"></p> -->
+	</form>	
+	<div class="wrapper">
+		<div class="add"><button id="add">Add Item</button></div>
+		<div class="delete"><button id="delete">Remove All</button></div>
+	</div>
+	<hr>
+	<div id="show-records">
+	</div>
+ 
+<script src="js/main.js"></script>
+
+</body>
+</html>
