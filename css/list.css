@@ -30,4 +30,9 @@
   transition: .3s linear;
 }
 .showlist tr:hover td {color: #6699ff;}
+.showlist tr.hide td {color: lightgrey;}
+
+.showlist input:checked + span {
+      color: #669;
+   }
 
