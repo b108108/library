@@ -1,31 +1,18 @@
-function List (task, expires, created){
-};
-
-List.prototype = {
-	constructor : List,
-	task : 0,
-    expires_at : 0,
-    created_at : 0,
-    done : 0,
-    type : 0
-};
-
 const LIST = 'list';
 const LINEID = 'lineId'; 
 
 function GetType() {
 	getJSON('http://rygorh.dev.monterosa.co.uk/todo/types.php')
 	.then(result => {
-		var allId = [];
+		let allId = [];
 		result.forEach(function(item, index){
 			allId[item.id] = item.name;
 			typeSelect = add_element.type;
-			var newOption = new Option(item.name, item.id);
+			let newOption = new Option(item.name, item.id);
 		    typeSelect.options[typeSelect.options.length]=newOption;
 		});
 		localStorage.setItem(LINEID, JSON.stringify(allId));
 		Show();
-		return true;
 	})
 	.catch(result => {  
 		console.log(result);
@@ -36,7 +23,7 @@ function GetTasks() {
 	getJSON('http://rygorh.dev.monterosa.co.uk/todo/items.php')
 	.then(result => {		
 		CheckTasks(result)
-	    var allRecords = GetStorage(LIST);
+	    let allRecords = GetStorage(LIST);
 	    if (allRecords.length!=0) {
 	    	result.forEach(function(item){
 	    		allRecords.push(item);
@@ -48,8 +35,7 @@ function GetTasks() {
 		allRecords = SortBy(allRecords, "expires_at");
 						
 		localStorage.setItem(LIST, JSON.stringify(allRecords));
-		Show();
-		return true;
+		Show();		
 	})
 	.catch(result => {  
 		console.log(result);
@@ -58,11 +44,11 @@ function GetTasks() {
 
 function getJSON(url) {
   return new Promise(function(resolve, reject) {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open('get', url, true);
     xhr.responseType = 'json';
     xhr.onload = function() {
-      var status = xhr.status;
+      let status = xhr.status;
       if (status == 200) {
         resolve(xhr.response);
       } else {
@@ -74,9 +60,7 @@ function getJSON(url) {
 };
 
 function Open(){
-	GetType();
 	GetTasks();		
-	return false;
 };
 
 function CheckTasks(records){
@@ -89,20 +73,20 @@ function CheckTasks(records){
 }
 
 function Add() {
-    var task = ((document.getElementById('task').value.toString())=="") ? "None" : document.getElementById('task').value.toString();
-    var expires = ((document.getElementById('expires').value)=="") ? ShowDate(0) : ShowDate(document.getElementById('expires').value);
-    var status = ((document.getElementById('status').value)=="Active") ? false : true;
-    var type = ShowType(parseInt(document.getElementById('type').value));
-    var currentDate = ShowDate(0);
+    let task = ((document.getElementById('task').value.toString())=="") ? "None" : document.getElementById('task').value.toString();
+    let expires = ((document.getElementById('expires').value)=="") ? ShowDate(0) : ShowDate(document.getElementById('expires').value);
+    let status = ((document.getElementById('status').value)=="Active") ? false : true;
+    let type = ShowType(parseInt(document.getElementById('type').value));
+    let currentDate = ShowDate(0);
     
-    var line = {"task":task,
+    let line = {"task":task,
     			"expires_at":expires,
     			"created_at":currentDate,
     			"done":status,
     			"type":type
     };
  
-    var allRecords = GetStorage(LIST);
+    let allRecords = GetStorage(LIST);
     
     allRecords.unshift(line);
     if (allRecords.length > 1) {
@@ -112,19 +96,17 @@ function Add() {
     }    
     localStorage.setItem(LIST, JSON.stringify(allRecords));
     Show();
-    return false;
 }
 
 function RemoveAll(){
  	localStorage.removeItem(LIST);
     location.reload();
     Show();
-    return false;
  }
  
 function Remove() {
-    var id = this.getAttribute('id');
-    var allRecords = GetStorage (LIST);
+    let id = this.getAttribute('id');
+    let allRecords = GetStorage (LIST);
     if (allRecords.length==1) {
     	RemoveAll();
     }
@@ -132,13 +114,12 @@ function Remove() {
     	allRecords.splice(id, 1);
     	localStorage.setItem(LIST, JSON.stringify(allRecords));
         Show();
-    } 
-    return false;
+    }
 } 
 
 function GetStorage(name){
-    var allRecords = new Array;
-    var jsonList = localStorage.getItem(name);
+    let allRecords = new Array;
+    let jsonList = localStorage.getItem(name);
     if (jsonList !== null) {
         allRecords = JSON.parse(jsonList); 
     }
@@ -159,12 +140,11 @@ function SortBy(records, element) {
 }
 
 function Checked() {
-    var id = this.getAttribute('id');
-    var allRecords = GetStorage (LIST);
+    let id = this.getAttribute('id');
+    let allRecords = GetStorage (LIST);
     allRecords[id].done = (allRecords[id].done==true) ? false : true;
     localStorage.setItem(LIST, JSON.stringify(allRecords)); 
-    Show(); 
-    return false;
+    Show();
 }
 
 function ShowDate(element){
@@ -174,21 +154,21 @@ function ShowDate(element){
 	else {
 		date = new Date();
 	}
-	var time = date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate()+"|"+date.getHours()+"-"+date.getMinutes()+"-"+date.getSeconds();
+	let time = date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate()+"|"+date.getHours()+"-"+date.getMinutes()+"-"+date.getSeconds();
 	return time;
 }
 
 function ShowType(element){
-	var allId = GetStorage(LINEID);
-	var result = (allId[element]) ? allId[element] : "Undefined";	
+	let allId = GetStorage(LINEID);
+	let result = (allId[element]) ? allId[element] : "Undefined";	
 	return result;
 }
 
 function Show() {
-    var allRecords = GetStorage(LIST);
+    let allRecords = GetStorage(LIST);
 	
 	if (allRecords.length!=0) { 
-	 	var html = '<table class="showlist"><tr><th> Date expires </th><th> Task </th><th> Date created </th><th> Status </th><th> Type </th><th></th></tr>';
+	 	let html = '<table class="showlist"><tr><th> Date expires </th><th> Task </th><th> Date created </th><th> Status </th><th> Type </th><th></th></tr>';
 			
 	    allRecords.forEach(function(item, index){
 	    	if (item.done==true) {
@@ -210,12 +190,12 @@ function Show() {
 	 
 	    document.getElementById('show-records').innerHTML = html;
 	 
-	    var buttons = document.getElementsByClassName('remove');
+	    let buttons = document.getElementsByClassName('remove');
 	    Array.apply(null, {length: buttons.length}).forEach(function(item,index){
 	    	buttons[index].addEventListener('click', Remove);
 	    });
 	    
-	    var checked = document.getElementsByClassName('status');    
+	    let checked = document.getElementsByClassName('status');    
 	    Array.apply(null, {length: checked.length}).forEach(function(item,index){
 	    	checked[index].addEventListener('click', Checked);
 	    });
