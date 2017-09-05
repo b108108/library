@@ -80,7 +80,7 @@ function Add() {
     let currentDate = ShowDate(0);
     
     let line = {"task":task,
-    			"expires_at":expires,
+    			"expires_at":expires,    			
     			"created_at":currentDate,
     			"done":status,
     			"type":type
@@ -90,9 +90,7 @@ function Add() {
     
     allRecords.unshift(line);
     if (allRecords.length > 1) {
-	    if (allRecords[0].expires_at<allRecords[1].expires_at) {
-	    	allRecords=SortBy(allRecords, "expires_at");
-	    }
+	    allRecords = SortBy(allRecords, "expires_at");
     }    
     localStorage.setItem(LIST, JSON.stringify(allRecords));
     Show();
